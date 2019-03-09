@@ -33,6 +33,7 @@ static NSString *const noneCellId = @"YVTableNoneStatusCell";
     [super viewDidLoad];
     [self setupCommon];
 //    [self reloadFileModels];
+    [self reloadFileModels];
     [self setupListView];
     
     self.loadEnd = YES;
@@ -47,7 +48,8 @@ static NSString *const noneCellId = @"YVTableNoneStatusCell";
     self.loadEnd = NO;
     self.msg = @"加载中...";
     
-    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeDocument]];
+//    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeDocument]];
+
 }
 
 #pragma mark - <更新>
@@ -73,6 +75,8 @@ static NSString *const noneCellId = @"YVTableNoneStatusCell";
             self.totalFileCount ++;
         }
     }
+    
+    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地文档";
     [self.listView reloadData];
 }
 
@@ -124,7 +128,7 @@ static NSString *const noneCellId = @"YVTableNoneStatusCell";
         [self.selectedFileNames removeObject:fileModel.fileName];
         self.selectedFileCount --;
     }
-//    [self.listView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+
     [self.listView reloadData];
     
     // 代理回调

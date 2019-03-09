@@ -30,10 +30,11 @@ static const NSString *noneCellId = @"YVCollectionNoneStatusCell";
 {
     [super viewDidLoad];
     [self setupCommon];
+    [self reloadFileModels];
     [self setupCollectionView];
     
     self.loadEnd = YES;
-    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地文档";
+    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地图片";
     [self.collectionView reloadData];
 }
 
@@ -43,8 +44,6 @@ static const NSString *noneCellId = @"YVCollectionNoneStatusCell";
     
     self.loadEnd = NO;
     self.msg = @"加载中...";
-    
-    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeAtla]];
 }
 
 /// 初始化UICollectionView
@@ -69,7 +68,26 @@ static const NSString *noneCellId = @"YVCollectionNoneStatusCell";
 /// 更新文件数据
 - (void)reloadFileModels
 {
-    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeAtla]];
+    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeAtla contrastModelsGroup:self.fileModels]];
+    // 重置统计数据
+    self.selectedFileCount = 0;
+    self.totalFileCount = 0;
+    // 统计数据
+    for (YVResultFileGroupModel *groupFileModel in self.fileModels)
+    {
+        for (YVResultFileModel *fileModel in groupFileModel.fileModels)
+        {
+            // 选中统计
+            if(fileModel.isSelected)
+            {
+                self.selectedFileCount ++;
+            }
+            // 累加统计
+            self.totalFileCount ++;
+        }
+    }
+    
+    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地图片";
     [self.collectionView reloadData];
 }
 
@@ -77,6 +95,11 @@ static const NSString *noneCellId = @"YVCollectionNoneStatusCell";
 {
     self.editStatus = editStatus;
     [self.collectionView reloadData];
+}
+
+- (void)subViewShouldReloadHeight:(CGFloat)height
+{
+    self.collectionView.frame = CGRectMake(5, 5, self.initFrame.size.width - 10, height - 5);
 }
 
 #pragma mark - <点击查看图片>
@@ -101,8 +124,15 @@ static const NSString *noneCellId = @"YVCollectionNoneStatusCell";
     __weak YVLocalizedAtlasCollectionViewController *weakSelf = self;
     imageChromeControl.deleteCallBack = ^(NSString *imageName, id imageModel)
     {
+        // 删除本地缓存
         YVResultFileModel *fileModel = imageModel;
         [[YVLocalizedCacheManager shareManager] deleteLocalizedCacheFile:fileModel.fileName];
+        imageName = nil;
+        imageModel = nil;
+        if(resultModel.fileModels.count == 0)
+        {
+            [weakSelf.fileModels removeAllObjects];
+        }
         [weakSelf.collectionView reloadData];
     };
 }
@@ -116,6 +146,45 @@ static const NSString *noneCellId = @"YVCollectionNoneStatusCell";
     fileModel.isSelected = !fileModel.isSelected;
     
     [self.collectionView reloadItemsAtIndexPaths:@[indexPath]];
+    
+    if (fileModel.isSelected)
+    {
+        [self.selectedFileNames addObject:fileModel.fileName];
+        self.selectedFileCount ++;
+    }
+    else
+    {
+        [self.selectedFileNames removeObject:fileModel.fileName];
+        self.selectedFileCount --;
+    }
+    
+    // 代理回调
+    if (self.delegate && [self.delegate respondsToSelector:@selector(shouldUpdateFileCount:totalCount:)])
+    {
+        [self.delegate shouldUpdateFileCount:self.selectedFileCount totalCount:self.totalFileCount];
+    }
+}
+
+#pragma mark - <选中文件设置>
+/// 设置当前文件选中数量全选或取消全选
+- (void)setSelectedStatus:(SelectedStatus)status
+{
+    [self.selectedFileNames removeAllObjects];
+    self.selectedFileCount = 0;
+    
+    for (YVResultFileGroupModel *groupFileModel in self.fileModels)
+    {
+        for (YVResultFileModel *fileModel in groupFileModel.fileModels)
+        {
+            fileModel.isSelected = (status == SelectedStatusAll) ? YES: NO;
+            if (fileModel.isSelected)
+            {
+                self.selectedFileCount ++;
+                [self.selectedFileNames addObject:fileModel.fileName];
+            }
+        }
+    }
+    [self.collectionView reloadData];
 }
 
 #pragma mark - <UICollectionView DataSorce,Delegate>

@@ -27,6 +27,7 @@
 @property (nonatomic, strong) YVLocalizedVideosCollectionViewController *videosControl;
 @property (nonatomic, strong) YVLocalizedFilesBaseViewController *currentControl;
 
+@property (nonatomic, strong) UIButton *managementBtn;
 @property (nonatomic) NSInteger currentIndex;
 
 @property (nonatomic, strong) YVFileManagementView *managementView;
@@ -73,6 +74,7 @@
     [manageBtn setTitle:@"管理" forState:UIControlStateNormal];
     [manageBtn setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
     [manageBtn setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
+    self.managementBtn = manageBtn;
     return @[downloadBtn, manageBtn];
 }
 
@@ -87,10 +89,7 @@
             break;
         case 1:// 管理文件
         {
-            UserEditStatus status = [sender.titleLabel.text isEqualToString:@"管理"] ? UserEditStatusEditing: UserEditStatusNormal;
-            [self shouldChangeEditingStatus:status];
-            NSString *title = [sender.titleLabel.text isEqualToString:@"管理"] ? @"取消": @"管理";
-            [sender setTitle:title forState:UIControlStateNormal];
+            [self didTouchInsideManagementButton];
         }
             break;
         default:
@@ -213,31 +212,21 @@
     switch (fileType) {
         case YVLocalizedFileTypeDocument:
             [self.documentsControl reloadFileModels];
+            self.currentControl = self.documentsControl;
             break;
         case YVLocalizedFileTypeAtla:
-            
+            [self.atlasControl reloadFileModels];
+            self.currentControl = self.atlasControl;
             break;
         case YVLocalizedFileTypeVideo:
-            
+            [self.videosControl reloadFileModels];
+            self.currentControl = self.videosControl;
             break;
         default:
             break;
     }
-//    if ([kindClassInfo[@"fileExtension"] isEqualToString:@"document"])
-//    {
-//        currentPage = 0;
-//        [self.documentsControl reloadFileModels];
-//    }
-//    else if ([kindClassInfo[@"fileExtension"] isEqualToString:@"atla"])
-//    {
-//        currentPage = 1;
-//        [self.atlasControl reloadFileModels];
-//    }
-//    else if ([kindClassInfo[@"fileExtension"] isEqualToString:@"video"])
-//    {
-//        currentPage = 2;
-//        [self.videosControl reloadFileModels];
-//    }
+    
+    // 更新
     [self.managementView updateSelectedCount:self.currentControl.selectedFileCount totalCount:self.currentControl.totalFileCount];
     
     // 检测是否需要跳转
@@ -248,22 +237,52 @@
 }
 
 #pragma mark - <文件编辑管理>
+- (void)didTouchInsideManagementButton
+{
+    UserEditStatus status = [self.managementBtn.titleLabel.text isEqualToString:@"管理"] ? UserEditStatusEditing: UserEditStatusNormal;
+    [self shouldChangeEditingStatus:status];
+    NSString *title = [self.managementBtn.titleLabel.text isEqualToString:@"管理"] ? @"取消": @"管理";
+    [self.managementBtn setTitle:title forState:UIControlStateNormal];
+}
+
 /// 编辑状态变更
 - (void)shouldChangeEditingStatus:(UserEditStatus)status
 {
     [self.documentsControl setUserEditStatus:status];
+    [self.atlasControl setUserEditStatus:status];
     [self.videosControl setUserEditStatus:status] ;
     
+    CGFloat currentHeight = 0;
     if (status == UserEditStatusNormal)// 取消编辑
     {
-        [self.currentControl setSelectedStatus:SelectedStatusNone];
+        currentHeight = self.currentControl.initFrame.size.height;
+        // 更新取消选中状态
+        [self.documentsControl setSelectedStatus:SelectedStatusNone];
+        if (_atlasControl)
+        {
+            [self.atlasControl setSelectedStatus:SelectedStatusNone];
+        }
+        if (_videosControl)
+        {
+            [self.videosControl setSelectedStatus:SelectedStatusNone];
+        }
         [self.managementView dismissManagementView];
-        [self.currentControl subViewShouldReloadHeight:self.currentControl.initFrame.size.height];
     }
     else
     {
+        currentHeight = self.currentControl.initFrame.size.height - SafeAreaBottomHeight;
         [self.managementView showManagementView];
-        [self.currentControl subViewShouldReloadHeight:self.currentControl.initFrame.size.height - SafeAreaBottomHeight];
+    }
+    
+    // 更新约束
+    [self.documentsControl subViewShouldReloadHeight:currentHeight];
+    if (_atlasControl)
+    {
+        [self.atlasControl subViewShouldReloadHeight:currentHeight];
+    }
+    if (_videosControl)
+    {
+        [self.videosControl subViewShouldReloadHeight:currentHeight];
     }
 }
 
@@ -293,11 +312,25 @@
         case ToolBarActionSelectedNone:// 取消全选
             [self.currentControl setSelectedStatus:SelectedStatusNone];
             break;
-        case ToolBarActionSelectedDelete:
+        case ToolBarActionSelectedDelete:// 删除选中的文件
         {
-            [[YVLocalizedCacheManager shareManager] deleteLocalizedCacheFiles:self.currentControl.selectedFileNames];
-            [self.currentControl reloadFileModels];
-            [self.managementView updateSelectedCount:self.currentControl.selectedFileCount totalCount:self.currentControl.totalFileCount];
+            NSMutableArray *objects = [NSMutableArray array];
+            [objects addObject:self.documentsControl];
+            if (_atlasControl)
+            {
+                [objects addObject:self.atlasControl];
+            }
+            if (_videosControl)
+            {
+                [objects addObject:self.videosControl];
+            }
+            // 删除已选中的文件资源
+            for (YVLocalizedFilesBaseViewController *control in objects)
+            {
+                [[YVLocalizedCacheManager shareManager] deleteLocalizedCacheFiles:control.selectedFileNames];
+                [control reloadFileModels];
+            }
+            [self didTouchInsideManagementButton];
         }
         break;
         default:

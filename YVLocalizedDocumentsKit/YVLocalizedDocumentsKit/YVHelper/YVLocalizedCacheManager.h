@@ -18,7 +18,6 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol YVLocalizedCacheManagerDelegate <NSObject>
 
 @optional
-
 /*!
  * @brief 存储文件成功后返回文件分类信息
  */

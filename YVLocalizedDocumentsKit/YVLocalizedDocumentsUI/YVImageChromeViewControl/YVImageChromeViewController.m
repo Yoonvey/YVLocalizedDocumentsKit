@@ -137,10 +137,11 @@ static NSString *const cellId = @"YVImageChromeImageCell";
 - (void)deleteImage
 {
     id imageModel = (self.imageModels && self.imageModels.count == self.imagePaths.count) ? self.imageModels[self.itemTag] : nil;//判断是否存在数据模型
-    if(self.deleteCallBack)
-    {
-        self.deleteCallBack(self.imagePaths[self.itemTag], imageModel);
-    }
+    NSString *fileName = self.imagePaths[self.itemTag];
+//    if(self.deleteCallBack)
+//    {
+//        self.deleteCallBack(self.imagePaths[self.itemTag], imageModel);
+//    }
     if (imageModel)
     {
         [self.imageModels removeObjectAtIndex:self.itemTag];
@@ -158,6 +159,11 @@ static NSString *const cellId = @"YVImageChromeImageCell";
     else//
     {
         [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:self.itemTag inSection:0] atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
+    }
+    
+    if(self.deleteCallBack)
+    {
+        self.deleteCallBack(fileName, imageModel);
     }
 }
 

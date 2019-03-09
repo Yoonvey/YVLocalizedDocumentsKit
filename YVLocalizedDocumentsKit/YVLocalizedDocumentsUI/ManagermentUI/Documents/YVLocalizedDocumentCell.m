@@ -22,11 +22,6 @@
         NSString *extension = [NSString stringWithFormat:@"%@x", contentModel.fileExtension];
         cover = [UIImage imageNamed:Bundle_Name(extension)];
     }
-    //unknown
-//    if (!cover)//适应某些文档类型的老版本
-//    {
-//        cover = [UIImage imageNamed:Bundle_Name(@"")];
-//    }
     self.cover.image = cover;
     
     self.fileName.text = contentModel.fileName;

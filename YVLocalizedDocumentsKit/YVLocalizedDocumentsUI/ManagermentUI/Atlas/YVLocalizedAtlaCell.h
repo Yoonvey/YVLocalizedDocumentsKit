@@ -19,7 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @interface YVLocalizedAtlaCell : UICollectionViewCell
 
 - (void)setContentModel:(YVResultFileModel *)contentModel;
-- (void)updateConstraintsWithUserControlStatus:(UserEditStatus)status;
 
 @end
 

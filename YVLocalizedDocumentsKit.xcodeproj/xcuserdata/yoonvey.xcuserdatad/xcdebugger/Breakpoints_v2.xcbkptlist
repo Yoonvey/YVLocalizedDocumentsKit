@@ -16,16 +16,32 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "YVLocalizedDocumentsKit/YVLocalizedDocumentsKit/YVHelper/YVValidFileFormatObject.m"
+            timestampString = "573728429.602771"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "128"
+            endingLineNumber = "128"
+            landmarkName = "+kindClassWithFileExtension:"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "YVLocalizedDocumentsKit/YVLocalizedDocumentsUI/ManagermentUI/Atlas/YVLocalizedAtlasCollectionViewController.m"
-            timestampString = "573035114.6788779"
+            filePath = "YVLocalizedDocumentsKit/YVLocalizedDocumentsUI/YVImageChromeViewControl/YVImageChromeViewController.m"
+            timestampString = "573785938.150342"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147"
-            landmarkName = "-collectionView:cellForItemAtIndexPath:"
+            startingLineNumber = "166"
+            endingLineNumber = "166"
+            landmarkName = "-deleteImage"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

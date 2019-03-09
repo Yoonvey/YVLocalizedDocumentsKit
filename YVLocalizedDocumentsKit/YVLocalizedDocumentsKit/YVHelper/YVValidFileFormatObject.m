@@ -31,9 +31,7 @@
     
     // mp4
     [formats addObject:@"mp4"];
-    [formats addObject:@"MP4"];
     [formats addObject:@"mov"];
-    [formats addObject:@"MOV"];
     
     // png,jpg
     [formats addObject:@"png"];
@@ -45,6 +43,7 @@
 
 + (NSString *)uppercaseFileKindWithFileExtension:(NSString *)extension
 {
+    extension = [extension lowercaseString];
     if ([extension isEqualToString:@"xlsx"] || [extension isEqualToString:@"xls"])
     {
         return @"EXCEL";
@@ -77,6 +76,7 @@
 
 + (NSString *)lowercaseFileKindWithFileExtension:(NSString *)extension
 {
+    extension = [extension lowercaseString];
     if ([extension isEqualToString:@"xlsx"] || [extension isEqualToString:@"xls"])
     {
         return @"excel";
@@ -111,6 +111,7 @@
 {
     for (NSString *format in [self validFileFormats])
     {
+        fileFormat = [fileFormat lowercaseString];
         if ([fileFormat isEqualToString:format])
         {
             return YES;
@@ -123,7 +124,8 @@
 
 + (NSString *)kindClassWithFileExtension:(NSString *)extension
 {
-    if ([extension isEqualToString:@"mp4"] || [extension isEqualToString:@"MP4"] || [extension isEqualToString:@"mov"] || [extension isEqualToString:@"MOV"])
+    extension = [extension lowercaseString];
+    if ([extension isEqualToString:@"mp4"] || [extension isEqualToString:@"mov"])
     {
         return @"video";
     }
@@ -139,7 +141,8 @@
 
 + (NSString *)kindClassEncodingWithFileExtension:(NSString *)extension
 {
-    if ([extension isEqualToString:@"mp4"] || [extension isEqualToString:@"MP4"] || [extension isEqualToString:@"mov"] || [extension isEqualToString:@"MOV"])
+    extension = [extension lowercaseString];
+    if ([extension isEqualToString:@"mp4"] || [extension isEqualToString:@"mov"])
     {
         return @"视频";
     }
@@ -171,6 +174,7 @@
 
 + (YVLocalizedFileType)fileTypeWithKindClass:(NSString *)kindClass
 {
+    kindClass = [kindClass lowercaseString];
     if ([kindClass isEqualToString:@"video"])
     {
         return YVLocalizedFileTypeVideo;

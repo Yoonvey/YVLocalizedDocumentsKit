@@ -47,10 +47,11 @@ static const NSString *noneCellId = @"YVTableNoneStatusCell";
 {
     [super viewDidLoad];
     [self setupCommon];
+    [self reloadFileModels];
     [self setupListView];
     
     self.loadEnd = YES;
-    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地文档";
+    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地视频";
     [self.listView reloadData];
 }
 
@@ -60,15 +61,33 @@ static const NSString *noneCellId = @"YVTableNoneStatusCell";
     
     self.loadEnd = NO;
     self.msg = @"加载中...";
-    
-    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeVideo]];
 }
 
 #pragma mark - <更新>
 /// 更新文件数据模型
 - (void)reloadFileModels
 {
-    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeVideo]];
+    // 获取新的文件内容
+    self.fileModels = [NSMutableArray arrayWithArray:[[YVLocalizedCacheManager shareManager] getFileModelsGroupWithFileType:YVLocalizedFileTypeVideo contrastModelsGroup:self.fileModels]];
+    // 重置统计数据
+    self.selectedFileCount = 0;
+    self.totalFileCount = 0;
+    // 统计数据
+    for (YVResultFileGroupModel *groupFileModel in self.fileModels)
+    {
+        for (YVResultFileModel *fileModel in groupFileModel.fileModels)
+        {
+            // 选中统计
+            if(fileModel.isSelected)
+            {
+                self.selectedFileCount ++;
+            }
+            // 累加统计
+            self.totalFileCount ++;
+        }
+    }
+    
+    self.msg = (self.fileModels.count != 0) ? nil: @"没有本地视频";
     [self.listView reloadData];
 }
 
@@ -76,6 +95,11 @@ static const NSString *noneCellId = @"YVTableNoneStatusCell";
 {
     self.editStatus = editStatus;
     [self.listView reloadData];
+}
+
+- (void)subViewShouldReloadHeight:(CGFloat)height
+{
+    self.listView.frame = CGRectMake(self.initFrame.origin.x, self.initFrame.origin.y, self.initFrame.size.width, height);
 }
 
 #pragma makr - <初始化TableView>
@@ -146,7 +170,47 @@ static const NSString *noneCellId = @"YVTableNoneStatusCell";
     YVResultFileModel *fileModel = groupFileModel.fileModels[indexPath.row];
     fileModel.isSelected = !fileModel.isSelected;
     
+    if (fileModel.isSelected)
+    {
+        [self.selectedFileNames addObject:fileModel.fileName];
+        self.selectedFileCount ++;
+    }
+    else
+    {
+        [self.selectedFileNames removeObject:fileModel.fileName];
+        self.selectedFileCount --;
+    }
+    
     [self.listView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    
+    // 代理回调
+    if (self.delegate && [self.delegate respondsToSelector:@selector(shouldUpdateFileCount:totalCount:)])
+    {
+        [self.delegate shouldUpdateFileCount:self.selectedFileCount totalCount:self.totalFileCount];
+    }
+}
+
+#pragma mark - <选中文件设置>
+/// 设置当前文件选中数量全选或取消全选
+- (void)setSelectedStatus:(SelectedStatus)status
+{
+    [self.selectedFileNames removeAllObjects];
+    self.selectedFileCount = 0;
+    
+    for (YVResultFileGroupModel *groupFileModel in self.fileModels)
+    {
+        groupFileModel.isExtend = (status == SelectedStatusAll) ? YES: groupFileModel.isExtend;
+        for (YVResultFileModel *fileModel in groupFileModel.fileModels)
+        {
+            fileModel.isSelected = (status == SelectedStatusAll) ? YES: NO;
+            if (fileModel.isSelected)
+            {
+                self.selectedFileCount ++;
+                [self.selectedFileNames addObject:fileModel.fileName];
+            }
+        }
+    }
+    [self.listView reloadData];
 }
 
 #pragma mark - <表格代理>

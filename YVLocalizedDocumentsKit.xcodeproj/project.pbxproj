@@ -362,12 +362,12 @@
 			children = (
 				386AA3E321C35B720066672E /* YVLocalizedFilesContainerViewController.h */,
 				386AA3E221C35B720066672E /* YVLocalizedFilesContainerViewController.m */,
+				3815824C22277FFF0016E196 /* YVLocalizedFilesBaseViewController.h */,
+				3815824D22277FFF0016E196 /* YVLocalizedFilesBaseViewController.m */,
 				38FD09422217B7E3005CDC3B /* YVLocalizedFileCell.h */,
 				38FD09432217B7E3005CDC3B /* YVLocalizedFileCell.m */,
 				3848279422276685002DD5E4 /* YVFileManagementView.h */,
 				3848279522276685002DD5E4 /* YVFileManagementView.m */,
-				3815824C22277FFF0016E196 /* YVLocalizedFilesBaseViewController.h */,
-				3815824D22277FFF0016E196 /* YVLocalizedFilesBaseViewController.m */,
 			);
 			path = Container;
 			sourceTree = "<group>";

@@ -356,6 +356,10 @@ static dispatch_once_t onceToken;
 /// 根据文件名称集合清除本地文件和缓存信息
 - (void)deleteLocalizedCacheFiles:(NSArray<NSString *> *)fileNames
 {
+    if (fileNames.count == 0)
+    {
+        return ;
+    }
     // 打开NSUserDefaults存储的缓存
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     // 获取用户缓存
@@ -400,7 +404,7 @@ static dispatch_once_t onceToken;
         if (removeResult)
         {
             // 移除文件存储信息
-            [self removeFile:fileName fromFiles:documents];
+            [self removeFile:fileName fromFiles:removeFiles];
         }
         else
         {
