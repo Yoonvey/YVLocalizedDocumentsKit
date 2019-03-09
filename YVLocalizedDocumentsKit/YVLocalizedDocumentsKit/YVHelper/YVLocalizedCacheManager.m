@@ -320,8 +320,8 @@ static dispatch_once_t onceToken;
         {
             groupModel.isExtend = (i == 0) ? YES : groupModel.isExtend;
             [groupModels addObject:groupModel];
+            i ++;
         }
-        i ++;
     }
     
     return groupModels;
