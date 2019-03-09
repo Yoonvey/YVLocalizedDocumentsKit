@@ -11,6 +11,12 @@
 #import "YVFileModel.h"
 #import "YVFileHelper.h"
 
+@interface YVLocalizedCacheManager ()
+
+@property (nonatomic, strong) NSMutableArray<NSString *> *additions;
+
+@end
+
 @implementation YVLocalizedCacheManager
 
 #pragma makr - <创建单例>
@@ -46,6 +52,15 @@ static dispatch_once_t onceToken;
     return self;
 }
 
+- (NSMutableArray<NSString *> *)additions
+{
+    if (!_additions)
+    {
+        _additions = [NSMutableArray array];
+    }
+    return _additions;
+}
+
 #pragma mark - <文件存取逻辑>
 /// 存储文件
 - (void)addLocalizedCacheWithFileData:(NSData *)fileData fileName:(NSString *)fileName
@@ -73,6 +88,8 @@ static dispatch_once_t onceToken;
         fileModel.fileSize = [self getSizeWithFilePath:filePath];
         fileModel.createTime = [YVFileHelper getDateStringForTodayWithDateFormat:@"yyyy-MM-dd"];
         [self setFileModelToUserDefaults:fileModel];
+        
+        [self.additions addObject:filePath];
         
         if (_delegate && [_delegate respondsToSelector:@selector(didAddedLocalizedCacheWithFileType:)])
         {
@@ -268,9 +285,24 @@ static dispatch_once_t onceToken;
                     break;
                 }
             }
-            
+        
             if ([[YVValidFileFormatObject uppercaseFileKindWithFileExtension:fileModel.fileExtension] isEqualToString:groupTitle])
             {
+                // 判断当前文件是否未查看
+                NSArray *additionPaths = [NSArray arrayWithArray:self.additions];
+                int i = 0;
+                for (NSString *additionPath in additionPaths)
+                {
+                    if ([fileModel.filePath isEqualToString:additionPath])
+                    {
+                        [self.additions removeObjectAtIndex:i];
+                        isExtend = YES;
+                        break;
+                    }
+                    i++;
+                }
+                
+                // 添加分组
                 YVResultFileGroupModel *groupModel = [groupModelsInfo objectForKey:groupTitle];
                 groupModel.isExtend = isExtend;
                 [groupModel.fileModels addObject:fileModel];
@@ -464,7 +496,6 @@ static dispatch_once_t onceToken;
     {
         long long size = [fileManager attributesOfItemAtPath:filePath error:nil].fileSize;
         return size;
-//        return size/1024.0/1024.0;
     }
     return 0;
 }

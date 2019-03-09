@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) UIImage *cover;// 封面图
 
+@property (nonatomic) BOOL isNew; //
 @property (nonatomic) BOOL isSelected; //选中状态
 
 @end
