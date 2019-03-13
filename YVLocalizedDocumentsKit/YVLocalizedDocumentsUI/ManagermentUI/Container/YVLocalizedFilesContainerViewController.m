@@ -13,6 +13,7 @@
 #import "UIBaseHeader.h"
 #import "YVFileManagementView.h"
 #import "YVLocalizedCacheManager.h"
+#import "YVUploadingManager.h"
 
 #import "YVLocalizedDocumentsViewController.h"
 #import "YVLocalizedAtlasCollectionViewController.h"
@@ -126,6 +127,21 @@
         _videosControl.delegate = self;
     }
     return _videosControl;
+}
+
+- (NSArray *)getInitlizedControls
+{
+    NSMutableArray *objects = [NSMutableArray array];
+    [objects addObject:self.documentsControl];
+    if (_atlasControl)
+    {
+        [objects addObject:self.atlasControl];
+    }
+    if (_videosControl)
+    {
+        [objects addObject:self.videosControl];
+    }
+    return objects;
 }
 
 #pragma mark - <实例化NinaPagerView>
@@ -256,15 +272,12 @@
     if (status == UserEditStatusNormal)// 取消编辑
     {
         currentHeight = self.currentControl.initFrame.size.height;
+        
         // 更新取消选中状态
-        [self.documentsControl setSelectedStatus:SelectedStatusNone];
-        if (_atlasControl)
+        NSArray *objects = [self getInitlizedControls];
+        for (YVLocalizedFilesBaseViewController *control in objects)
         {
-            [self.atlasControl setSelectedStatus:SelectedStatusNone];
-        }
-        if (_videosControl)
-        {
-            [self.videosControl setSelectedStatus:SelectedStatusNone];
+            [control setSelectedStatus:SelectedStatusNone];
         }
         [self.managementView dismissManagementView];
     }
@@ -275,14 +288,10 @@
     }
     
     // 更新约束
-    [self.documentsControl subViewShouldReloadHeight:currentHeight];
-    if (_atlasControl)
+    NSArray *objects = [self getInitlizedControls];
+    for (YVLocalizedFilesBaseViewController *control in objects)
     {
-        [self.atlasControl subViewShouldReloadHeight:currentHeight];
-    }
-    if (_videosControl)
-    {
-        [self.videosControl subViewShouldReloadHeight:currentHeight];
+        [control subViewShouldReloadHeight:currentHeight];
     }
 }
 
@@ -312,18 +321,25 @@
         case ToolBarActionSelectedNone:// 取消全选
             [self.currentControl setSelectedStatus:SelectedStatusNone];
             break;
+        case ToolBarActionUploadCloud:// 上传(自定义上传)
+        {
+            NSArray *objects = [self getInitlizedControls];
+            NSMutableDictionary *slectedFileInfo = [NSMutableDictionary dictionary];
+            for (YVLocalizedFilesBaseViewController *control in objects)
+            {
+                NSMutableDictionary *groupInfo = [control getGroupOfSelectedResultFileModel];
+                for (NSString *groupName in [groupInfo allKeys])
+                {
+                    [slectedFileInfo setValue:[groupInfo valueForKey:groupName] forKey:groupName];
+                }
+            }
+            [[YVUploadingManager shareManager] addUploadingFilesGroup:slectedFileInfo];
+            [UIBaseControlRespoder push:self toNextControl:@"YVUploadingViewController" withProperties:nil];
+        }
+            break;
         case ToolBarActionSelectedDelete:// 删除选中的文件
         {
-            NSMutableArray *objects = [NSMutableArray array];
-            [objects addObject:self.documentsControl];
-            if (_atlasControl)
-            {
-                [objects addObject:self.atlasControl];
-            }
-            if (_videosControl)
-            {
-                [objects addObject:self.videosControl];
-            }
+            NSArray *objects = [self getInitlizedControls];
             // 删除已选中的文件资源
             for (YVLocalizedFilesBaseViewController *control in objects)
             {

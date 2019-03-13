@@ -156,6 +156,22 @@
     }
 }
 
++ (NSString *)kindClassEncodingWithFileUpExtension:(NSString *)upExtension
+{
+    if ([upExtension isEqualToString:@"VIDEO"])
+    {
+        return @"视频";
+    }
+    else if([upExtension isEqualToString:@"ATLA"])
+    {
+        return @"图册";
+    }
+    else
+    {
+        return @"文档";
+    }
+}
+
 + (NSString *)kindClassWithFileType:(YVLocalizedFileType)fileType
 {
     if (fileType == YVLocalizedFileTypeVideo)

@@ -58,4 +58,55 @@
     
 }
 
+- (YVResultFileModel *)getResultFileModelWithFileName:(NSString *)fileName
+{
+    for (YVResultFileGroupModel *groupModel in self.fileModels)
+    {
+        for (YVResultFileModel *fileModel in groupModel.fileModels)
+        {
+            if ([fileModel.fileName isEqualToString:fileName])
+            {
+                return fileModel;
+            }
+        }
+    }
+    return nil;
+}
+
+- (NSMutableArray<YVResultFileModel *> *)getSelectedResultFileModels
+{
+    NSMutableArray<YVResultFileModel *> *fileModels = [NSMutableArray array];
+    for (NSString *fileName in self.selectedFileNames)
+    {
+        YVResultFileModel *fileModel = [self getResultFileModelWithFileName:fileName];
+        if (fileModel)
+        {
+            [fileModels addObject:fileModel];
+        }
+    }
+    return fileModels;
+}
+
+- (NSMutableDictionary *)getGroupOfSelectedResultFileModel
+{
+    NSMutableDictionary *groupInfo = [NSMutableDictionary dictionary];
+    for (NSString *fileName in self.selectedFileNames)
+    {
+        for (YVResultFileGroupModel *groupModel in self.fileModels)
+        {
+            for (YVResultFileModel *fileModel in groupModel.fileModels)
+            {
+                if ([fileModel.fileName isEqualToString:fileName])
+                {
+                    NSMutableArray *group = [NSMutableArray arrayWithArray:[groupInfo valueForKey:groupModel.groupName]];
+                    [group addObject:fileModel];
+                    [groupInfo setValue:group forKey:groupModel.groupName];
+                    break;
+                }
+            }
+        }
+    }
+    return groupInfo;
+}
+
 @end

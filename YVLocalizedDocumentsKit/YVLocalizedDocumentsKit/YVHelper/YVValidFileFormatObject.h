@@ -25,6 +25,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (NSString *)kindClassWithFileExtension:(NSString *)extension;// 英文分类
 + (NSString *)kindClassEncodingWithFileExtension:(NSString *)extension;// 中文分类
++ (NSString *)kindClassEncodingWithFileUpExtension:(NSString *)upExtension;// 中文分类
 + (NSString *)kindClassWithFileType:(YVLocalizedFileType)fileType;// 枚举分类
 + (YVLocalizedFileType)fileTypeWithKindClass:(NSString *)kindClass;// 枚举
 

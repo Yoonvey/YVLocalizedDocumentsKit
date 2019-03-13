@@ -59,6 +59,21 @@ typedef enum {
  */
 - (void)setSelectedStatus:(SelectedStatus)status;
 
+/*!
+ * @brief 根据文件名称获取对应的数据模型
+ * @oaram fileName 文件名称
+ * @return 数据模型
+ */
+- (YVResultFileModel *)getResultFileModelWithFileName:(NSString *)fileName;
+
+/*!
+ * @brief 根据文件名称获取对应的数据模型集合<不分组>
+ * @return 数据模型集合
+ */
+- (NSMutableArray<YVResultFileModel *> *)getSelectedResultFileModels;
+
+- (NSMutableDictionary *)getGroupOfSelectedResultFileModel;
+
 @end
 
 NS_ASSUME_NONNULL_END

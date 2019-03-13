@@ -61,7 +61,7 @@
     [self.selectAllButton setImage:[UIImage imageNamed:Bundle_Name(@"selected")] forState:UIControlStateSelected];
     [self.selectAllButton setTitle:@"全选" forState:UIControlStateNormal];
     [self.selectAllButton setTitle:@"取消全选" forState:UIControlStateSelected];
-    [self.selectAllButton setTitleColor:[UIColor colorWithRed:180.0/255 green:180.0/255 blue:180.0/255 alpha:1.f] forState:UIControlStateNormal];
+    [self.selectAllButton setTitleColor:[UIColor colorWithRed:18.0/255 green:150.0/255 blue:219.0/255 alpha:1.f] forState:UIControlStateNormal];
     [self.selectAllButton addTarget:self action:@selector(didTouchUpInsideButton:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *selectAllItem = [[UIBarButtonItem alloc] initWithCustomView:self.selectAllButton];
     

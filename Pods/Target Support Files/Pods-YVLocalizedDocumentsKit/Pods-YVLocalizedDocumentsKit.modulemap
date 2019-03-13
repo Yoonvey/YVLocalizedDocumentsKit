@@ -1,0 +1,6 @@
+framework module Pods_YVLocalizedDocumentsKit {
+  umbrella header "Pods-YVLocalizedDocumentsKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

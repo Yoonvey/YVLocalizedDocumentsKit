@@ -10,6 +10,8 @@
 
 #import "YVLocalizedCacheManager.h"
 
+#import "YVRequestTool.h"
+
 @interface AppDelegate ()
 
 @end
@@ -19,6 +21,26 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    //请求参数
+    NSMutableDictionary *parameters = [NSMutableDictionary dictionary];
+    [parameters setValue:@"admin" forKey:@"userName"];
+    [parameters setValue:@"888888" forKey:@"password"];
+    [parameters setValue:@"ios" forKey:@"sysType"];
+    
+    __weak AppDelegate *weakSelf = self;
+    [YVRequestTool postWithUrlString:LoginUrl(AppLogin) parameters:parameters success:^(id responseObject)
+     {
+         NSLog(@"responseString>%@",responseObject);
+         NSDictionary *data = responseObject[@"data"];
+         NSDictionary *loginInfo = data[@"loginInfo"];
+         NSString *token = loginInfo[@"token"];
+         weakSelf.token = token;
+     } failure:^(NSError *error)
+     {
+
+     }];
+    
     return YES;
 }
 

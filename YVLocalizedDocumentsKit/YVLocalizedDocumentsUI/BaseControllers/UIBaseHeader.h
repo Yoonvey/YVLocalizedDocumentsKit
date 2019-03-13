@@ -26,4 +26,9 @@ typedef enum
     UserEditStatusEditing
 } UserEditStatus;
 
+#import "UIBaseControlRespoder.h"
+#import "UIBaseViewController.h"
+#import "UIBaseNavigationController.h"
+#import "UINavigationController+FDFullscreenPopGesture.h"
+
 #endif /* UIBaseHeader_h */

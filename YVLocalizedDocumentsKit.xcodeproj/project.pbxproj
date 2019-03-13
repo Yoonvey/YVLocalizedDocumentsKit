@@ -10,6 +10,7 @@
 		3815824E22277FFF0016E196 /* YVLocalizedFilesBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3815824D22277FFF0016E196 /* YVLocalizedFilesBaseViewController.m */; };
 		3833592A21C74B5D0019AF09 /* YVCollectionNoneStatusCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3833592821C74B5D0019AF09 /* YVCollectionNoneStatusCell.m */; };
 		3833592D21C74F770019AF09 /* YVLocalizedAtlaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3833592C21C74F770019AF09 /* YVLocalizedAtlaCell.m */; };
+		3843BD642233908200CFBD33 /* YVRequestTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 3843BD632233908200CFBD33 /* YVRequestTool.m */; };
 		3848279622276685002DD5E4 /* YVFileManagementView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3848279522276685002DD5E4 /* YVFileManagementView.m */; };
 		385EF02E21C237D700407B41 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 385EF02D21C237D700407B41 /* AppDelegate.m */; };
 		385EF03121C237D700407B41 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 385EF03021C237D700407B41 /* ViewController.m */; };
@@ -19,6 +20,11 @@
 		385EF03C21C237D800407B41 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 385EF03B21C237D800407B41 /* main.m */; };
 		385EF04621C237D800407B41 /* YVLocalizedDocumentsKitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385EF04521C237D800407B41 /* YVLocalizedDocumentsKitTests.m */; };
 		385EF05121C237D800407B41 /* YVLocalizedDocumentsKitUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 385EF05021C237D800407B41 /* YVLocalizedDocumentsKitUITests.m */; };
+		3863B75A22364BE100E5504E /* YVUploadingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3863B75922364BE100E5504E /* YVUploadingViewController.m */; };
+		3863B75D22364D3400E5504E /* YVUploadingDocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3863B75C22364D3400E5504E /* YVUploadingDocumentCell.m */; };
+		3863B76322364D7B00E5504E /* YVUploadingFileModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 3863B76222364D7B00E5504E /* YVUploadingFileModel.m */; };
+		3863B7662236519800E5504E /* YVUploadingVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3863B7652236519800E5504E /* YVUploadingVideoCell.m */; };
+		3863B7692236523200E5504E /* YVUploadingAtlaCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3863B7682236523200E5504E /* YVUploadingAtlaCell.m */; };
 		3869565B221797150087924E /* YVImageChromeIResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 3869565A221797150087924E /* YVImageChromeIResources.bundle */; };
 		3869565E2217A7CE0087924E /* YVLocalizedVideoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 3869565D2217A7CE0087924E /* YVLocalizedVideoCell.m */; };
 		386AA3A721C342800066672E /* YVLocalizedCacheManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 386AA39C21C342800066672E /* YVLocalizedCacheManager.m */; };
@@ -44,10 +50,13 @@
 		386AA3FC21C39A1B0066672E /* YVLocalizedDocumentsUIResources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 386AA3FB21C39A1B0066672E /* YVLocalizedDocumentsUIResources.bundle */; };
 		386AA40221C3A65B0066672E /* YVFileHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 386AA40121C3A65B0066672E /* YVFileHelper.m */; };
 		388F051F21C4ABFD001A00EB /* YVResultFileGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 388F051E21C4ABFD001A00EB /* YVResultFileGroupModel.m */; };
+		3896132722373BA900F29E08 /* YVUploadingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3896132622373BA900F29E08 /* YVUploadingManager.m */; };
+		3896132A2237408E00F29E08 /* YVUploadingFileGroupModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 389613292237408E00F29E08 /* YVUploadingFileGroupModel.m */; };
 		389F35D521C4E7CB00D3F076 /* CLMDAlertTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 389F35D321C4E7CB00D3F076 /* CLMDAlertTools.m */; };
 		38EAD83E2216B45A006F43E7 /* YVImageChromeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EAD83A2216B45A006F43E7 /* YVImageChromeViewController.m */; };
 		38EAD83F2216B45A006F43E7 /* YVImageChromeImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38EAD83D2216B45A006F43E7 /* YVImageChromeImageCell.m */; };
 		38FD09442217B7E3005CDC3B /* YVLocalizedFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 38FD09432217B7E3005CDC3B /* YVLocalizedFileCell.m */; };
+		EA25616261F3BFEF62FBF018 /* Pods_YVLocalizedDocumentsKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95477EE20240A4DB05A558B5 /* Pods_YVLocalizedDocumentsKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +83,8 @@
 		3833592921C74B5D0019AF09 /* YVCollectionNoneStatusCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YVCollectionNoneStatusCell.h; sourceTree = "<group>"; };
 		3833592B21C74F770019AF09 /* YVLocalizedAtlaCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVLocalizedAtlaCell.h; sourceTree = "<group>"; };
 		3833592C21C74F770019AF09 /* YVLocalizedAtlaCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVLocalizedAtlaCell.m; sourceTree = "<group>"; };
+		3843BD622233908200CFBD33 /* YVRequestTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVRequestTool.h; sourceTree = "<group>"; };
+		3843BD632233908200CFBD33 /* YVRequestTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVRequestTool.m; sourceTree = "<group>"; };
 		3848279422276685002DD5E4 /* YVFileManagementView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVFileManagementView.h; sourceTree = "<group>"; };
 		3848279522276685002DD5E4 /* YVFileManagementView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVFileManagementView.m; sourceTree = "<group>"; };
 		385EF02921C237D700407B41 /* YVLocalizedDocumentsKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YVLocalizedDocumentsKit.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +103,16 @@
 		385EF04C21C237D800407B41 /* YVLocalizedDocumentsKitUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YVLocalizedDocumentsKitUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		385EF05021C237D800407B41 /* YVLocalizedDocumentsKitUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVLocalizedDocumentsKitUITests.m; sourceTree = "<group>"; };
 		385EF05221C237D800407B41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3863B75822364BE100E5504E /* YVUploadingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingViewController.h; sourceTree = "<group>"; };
+		3863B75922364BE100E5504E /* YVUploadingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingViewController.m; sourceTree = "<group>"; };
+		3863B75B22364D3400E5504E /* YVUploadingDocumentCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingDocumentCell.h; sourceTree = "<group>"; };
+		3863B75C22364D3400E5504E /* YVUploadingDocumentCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingDocumentCell.m; sourceTree = "<group>"; };
+		3863B76122364D7B00E5504E /* YVUploadingFileModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingFileModel.h; sourceTree = "<group>"; };
+		3863B76222364D7B00E5504E /* YVUploadingFileModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingFileModel.m; sourceTree = "<group>"; };
+		3863B7642236519800E5504E /* YVUploadingVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingVideoCell.h; sourceTree = "<group>"; };
+		3863B7652236519800E5504E /* YVUploadingVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingVideoCell.m; sourceTree = "<group>"; };
+		3863B7672236523200E5504E /* YVUploadingAtlaCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingAtlaCell.h; sourceTree = "<group>"; };
+		3863B7682236523200E5504E /* YVUploadingAtlaCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingAtlaCell.m; sourceTree = "<group>"; };
 		3869565A221797150087924E /* YVImageChromeIResources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = YVImageChromeIResources.bundle; sourceTree = "<group>"; };
 		3869565C2217A7CE0087924E /* YVLocalizedVideoCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVLocalizedVideoCell.h; sourceTree = "<group>"; };
 		3869565D2217A7CE0087924E /* YVLocalizedVideoCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVLocalizedVideoCell.m; sourceTree = "<group>"; };
@@ -143,6 +164,10 @@
 		386AA40121C3A65B0066672E /* YVFileHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVFileHelper.m; sourceTree = "<group>"; };
 		388F051D21C4ABFD001A00EB /* YVResultFileGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVResultFileGroupModel.h; sourceTree = "<group>"; };
 		388F051E21C4ABFD001A00EB /* YVResultFileGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVResultFileGroupModel.m; sourceTree = "<group>"; };
+		3896132522373BA900F29E08 /* YVUploadingManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingManager.h; sourceTree = "<group>"; };
+		3896132622373BA900F29E08 /* YVUploadingManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingManager.m; sourceTree = "<group>"; };
+		389613282237408E00F29E08 /* YVUploadingFileGroupModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVUploadingFileGroupModel.h; sourceTree = "<group>"; };
+		389613292237408E00F29E08 /* YVUploadingFileGroupModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVUploadingFileGroupModel.m; sourceTree = "<group>"; };
 		389F35D321C4E7CB00D3F076 /* CLMDAlertTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CLMDAlertTools.m; sourceTree = "<group>"; };
 		389F35D421C4E7CB00D3F076 /* CLMDAlertTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CLMDAlertTools.h; sourceTree = "<group>"; };
 		38EAD83A2216B45A006F43E7 /* YVImageChromeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YVImageChromeViewController.m; sourceTree = "<group>"; };
@@ -151,6 +176,9 @@
 		38EAD83D2216B45A006F43E7 /* YVImageChromeImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YVImageChromeImageCell.m; sourceTree = "<group>"; };
 		38FD09422217B7E3005CDC3B /* YVLocalizedFileCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YVLocalizedFileCell.h; sourceTree = "<group>"; };
 		38FD09432217B7E3005CDC3B /* YVLocalizedFileCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YVLocalizedFileCell.m; sourceTree = "<group>"; };
+		95477EE20240A4DB05A558B5 /* Pods_YVLocalizedDocumentsKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_YVLocalizedDocumentsKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CC71AC1877BE850814657BEF /* Pods-YVLocalizedDocumentsKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YVLocalizedDocumentsKit.debug.xcconfig"; path = "Pods/Target Support Files/Pods-YVLocalizedDocumentsKit/Pods-YVLocalizedDocumentsKit.debug.xcconfig"; sourceTree = "<group>"; };
+		F1717EC36BDA5BE3D59E51C5 /* Pods-YVLocalizedDocumentsKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-YVLocalizedDocumentsKit.release.xcconfig"; path = "Pods/Target Support Files/Pods-YVLocalizedDocumentsKit/Pods-YVLocalizedDocumentsKit.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +186,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EA25616261F3BFEF62FBF018 /* Pods_YVLocalizedDocumentsKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,6 +214,8 @@
 				385EF04421C237D800407B41 /* YVLocalizedDocumentsKitTests */,
 				385EF04F21C237D800407B41 /* YVLocalizedDocumentsKitUITests */,
 				385EF02A21C237D700407B41 /* Products */,
+				870252229C7AE6DEE031A7CD /* Pods */,
+				CF8A43E7044FC42BE43D2478 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -234,6 +265,49 @@
 			path = YVLocalizedDocumentsKitUITests;
 			sourceTree = "<group>";
 		};
+		3863B75422364BBE00E5504E /* UploadUI */ = {
+			isa = PBXGroup;
+			children = (
+				3863B75522364BBE00E5504E /* Models */,
+				3863B75622364BBE00E5504E /* Controllers */,
+				3863B75722364BBE00E5504E /* Views */,
+			);
+			path = UploadUI;
+			sourceTree = "<group>";
+		};
+		3863B75522364BBE00E5504E /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				3863B76122364D7B00E5504E /* YVUploadingFileModel.h */,
+				3863B76222364D7B00E5504E /* YVUploadingFileModel.m */,
+				389613282237408E00F29E08 /* YVUploadingFileGroupModel.h */,
+				389613292237408E00F29E08 /* YVUploadingFileGroupModel.m */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		3863B75622364BBE00E5504E /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				3863B75822364BE100E5504E /* YVUploadingViewController.h */,
+				3863B75922364BE100E5504E /* YVUploadingViewController.m */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		3863B75722364BBE00E5504E /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				3863B75B22364D3400E5504E /* YVUploadingDocumentCell.h */,
+				3863B75C22364D3400E5504E /* YVUploadingDocumentCell.m */,
+				3863B7642236519800E5504E /* YVUploadingVideoCell.h */,
+				3863B7652236519800E5504E /* YVUploadingVideoCell.m */,
+				3863B7672236523200E5504E /* YVUploadingAtlaCell.h */,
+				3863B7682236523200E5504E /* YVUploadingAtlaCell.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		386AA39A21C342800066672E /* YVLocalizedDocumentsKit */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +326,10 @@
 				386AA39C21C342800066672E /* YVLocalizedCacheManager.m */,
 				386AA40021C3A65B0066672E /* YVFileHelper.h */,
 				386AA40121C3A65B0066672E /* YVFileHelper.m */,
+				3843BD622233908200CFBD33 /* YVRequestTool.h */,
+				3843BD632233908200CFBD33 /* YVRequestTool.m */,
+				3896132522373BA900F29E08 /* YVUploadingManager.h */,
+				3896132622373BA900F29E08 /* YVUploadingManager.m */,
 			);
 			path = YVHelper;
 			sourceTree = "<group>";
@@ -272,11 +350,12 @@
 		386AA3AC21C342AD0066672E /* YVLocalizedDocumentsUI */ = {
 			isa = PBXGroup;
 			children = (
+				386AA3C721C3479B0066672E /* ManagermentUI */,
+				3863B75422364BBE00E5504E /* UploadUI */,
 				386AA3FB21C39A1B0066672E /* YVLocalizedDocumentsUIResources.bundle */,
 				38EAD8392216B453006F43E7 /* YVImageChromeViewControl */,
 				389F35D221C4E7C300D3F076 /* CLMDAlertTools */,
 				386AA3ED21C37F720066672E /* TableViewAssets */,
-				386AA3C721C3479B0066672E /* ManagermentUI */,
 				386AA3B921C345CA0066672E /* BaseControllers */,
 				386AA3AD21C344800066672E /* NinaPagerView */,
 			);
@@ -411,6 +490,23 @@
 			path = YVImageChromeViewControl;
 			sourceTree = "<group>";
 		};
+		870252229C7AE6DEE031A7CD /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				CC71AC1877BE850814657BEF /* Pods-YVLocalizedDocumentsKit.debug.xcconfig */,
+				F1717EC36BDA5BE3D59E51C5 /* Pods-YVLocalizedDocumentsKit.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		CF8A43E7044FC42BE43D2478 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				95477EE20240A4DB05A558B5 /* Pods_YVLocalizedDocumentsKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -418,9 +514,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 385EF05521C237D800407B41 /* Build configuration list for PBXNativeTarget "YVLocalizedDocumentsKit" */;
 			buildPhases = (
+				29B2F8BFB4F00C64F25558C1 /* [CP] Check Pods Manifest.lock */,
 				385EF02521C237D700407B41 /* Sources */,
 				385EF02621C237D700407B41 /* Frameworks */,
 				385EF02721C237D700407B41 /* Resources */,
+				DC073BDFEA5BAC05BB8CE25E /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -538,26 +636,79 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		29B2F8BFB4F00C64F25558C1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-YVLocalizedDocumentsKit-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DC073BDFEA5BAC05BB8CE25E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-YVLocalizedDocumentsKit/Pods-YVLocalizedDocumentsKit-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AFNetworking.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-YVLocalizedDocumentsKit/Pods-YVLocalizedDocumentsKit-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		385EF02521C237D700407B41 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3843BD642233908200CFBD33 /* YVRequestTool.m in Sources */,
 				386AA3B621C344C80066672E /* NinaPagerView.m in Sources */,
 				386AA3F821C37F790066672E /* YVTableViewCellObject.m in Sources */,
 				386AA3AB21C342800066672E /* YVFileModel.m in Sources */,
+				3863B76322364D7B00E5504E /* YVUploadingFileModel.m in Sources */,
 				385EF03121C237D700407B41 /* ViewController.m in Sources */,
 				386AA3C521C3465D0066672E /* UIBaseControlRespoder.m in Sources */,
 				386AA3E621C35B720066672E /* YVLocalizedFilesContainerViewController.m in Sources */,
 				386AA3EC21C37A690066672E /* YVLocalizedDocumentCell.m in Sources */,
 				3869565E2217A7CE0087924E /* YVLocalizedVideoCell.m in Sources */,
+				3863B75A22364BE100E5504E /* YVUploadingViewController.m in Sources */,
 				3848279622276685002DD5E4 /* YVFileManagementView.m in Sources */,
+				3896132722373BA900F29E08 /* YVUploadingManager.m in Sources */,
 				38EAD83E2216B45A006F43E7 /* YVImageChromeViewController.m in Sources */,
 				388F051F21C4ABFD001A00EB /* YVResultFileGroupModel.m in Sources */,
 				386AA3C221C3465D0066672E /* UIBaseNavigationController.m in Sources */,
+				3863B7692236523200E5504E /* YVUploadingAtlaCell.m in Sources */,
 				3815824E22277FFF0016E196 /* YVLocalizedFilesBaseViewController.m in Sources */,
 				386AA40221C3A65B0066672E /* YVFileHelper.m in Sources */,
 				386AA3E421C35B720066672E /* YVLocalizedVideosCollectionViewController.m in Sources */,
+				3896132A2237408E00F29E08 /* YVUploadingFileGroupModel.m in Sources */,
 				386AA3E521C35B720066672E /* YVLocalizedAtlasCollectionViewController.m in Sources */,
 				3833592D21C74F770019AF09 /* YVLocalizedAtlaCell.m in Sources */,
 				389F35D521C4E7CB00D3F076 /* CLMDAlertTools.m in Sources */,
@@ -568,10 +719,12 @@
 				386AA3F721C37F790066672E /* YVTableHeaderView.m in Sources */,
 				386AA3DA21C35B3E0066672E /* YVLocalizedDocumentsViewController.m in Sources */,
 				38FD09442217B7E3005CDC3B /* YVLocalizedFileCell.m in Sources */,
+				3863B75D22364D3400E5504E /* YVUploadingDocumentCell.m in Sources */,
 				386AA3B521C344C80066672E /* NinaBaseView.m in Sources */,
 				386AA3F921C37F790066672E /* YVTableNoneStatusCell.m in Sources */,
 				386AA3AA21C342800066672E /* YVResultFileModel.m in Sources */,
 				386AA3A921C342800066672E /* YVValidFileFormatObject.m in Sources */,
+				3863B7662236519800E5504E /* YVUploadingVideoCell.m in Sources */,
 				385EF03C21C237D800407B41 /* main.m in Sources */,
 				386AA3C421C3465D0066672E /* UIBaseViewController.m in Sources */,
 				385EF02E21C237D700407B41 /* AppDelegate.m in Sources */,
@@ -745,6 +898,7 @@
 		};
 		385EF05621C237D800407B41 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CC71AC1877BE850814657BEF /* Pods-YVLocalizedDocumentsKit.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -763,6 +917,7 @@
 		};
 		385EF05721C237D800407B41 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1717EC36BDA5BE3D59E51C5 /* Pods-YVLocalizedDocumentsKit.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;

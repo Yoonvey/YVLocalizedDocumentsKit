@@ -13,10 +13,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YVResultFileModel : NSObject
 
-@property (nonatomic, copy) NSString *filePath;
-@property (nonatomic, copy) NSString *fileName;
-@property (nonatomic, copy) NSString *fileExtension;
-@property (nonatomic, copy) NSString *fileDescription;
+@property (nonatomic, copy) NSString *filePath;// 文件存储路径
+@property (nonatomic, copy) NSString *fileName;// 文件名称
+@property (nonatomic, copy) NSString *fileExtension;// 文件格式(后缀)
+@property (nonatomic, copy) NSString *fileDescription;// 文件描述
 
 @property (nonatomic) float fileSize;// B
 @property (nonatomic, copy) NSString *createTime;
