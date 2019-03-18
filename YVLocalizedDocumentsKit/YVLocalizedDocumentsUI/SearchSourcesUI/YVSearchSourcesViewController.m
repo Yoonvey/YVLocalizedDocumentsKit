@@ -150,16 +150,21 @@ static const NSString *cellId = @"YVSearchSourcesCell";
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.view.backgroundColor = KColor(240, 240, 240);
+    [self setupCommon];
     [self setupCollectionView];
-    self.pictureModels = [NSMutableArray array];
-    self.videoModels = [NSMutableArray array];
     
     //实用异步线程, 防止阻塞主线程
     dispatch_async(dispatch_get_global_queue(0, 0), ^ {
         // 处理耗时操作的代码块...
         [self getSources];
     });
+}
+
+- (void)setupCommon
+{
+    self.view.backgroundColor = KColor(240, 240, 240);
+    self.pictureModels = [NSMutableArray array];
+    self.videoModels = [NSMutableArray array];
 }
 
 /// 初始化UICollectionView
