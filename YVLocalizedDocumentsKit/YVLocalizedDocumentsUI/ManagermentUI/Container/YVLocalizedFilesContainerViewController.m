@@ -219,6 +219,7 @@
 /// 批量传输完成更新数据显示
 - (void)didEndMassTransfer
 {
+    self.massTransfer = NO;
     [self.atlasControl reloadFileModels];
     self.currentControl = self.atlasControl;
     [self.videosControl reloadFileModels];
