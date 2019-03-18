@@ -60,6 +60,7 @@ static NSString * const videoCellId = @"YVUploadingVideoCell";
     [super viewDidLoad];
     [self setupCommon];
     [self setupListView];
+    [[YVUploadingManager shareManager] startAllOfUploadingTasks];
 }
 
 - (void)setupCommon

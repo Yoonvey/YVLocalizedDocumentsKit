@@ -13,11 +13,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum {
-    SelectedStatusNone = 0,
-    SelectedStatusAll
-} SelectedStatus;
-
 
 @protocol YVLocalizedFileManagementDelegate <NSObject>
 

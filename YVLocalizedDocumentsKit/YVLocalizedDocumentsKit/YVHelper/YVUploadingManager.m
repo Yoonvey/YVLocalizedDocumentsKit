@@ -114,7 +114,7 @@ static dispatch_once_t onceToken;
     return indexPath;
 }
 
-#pragma mark - <add>
+#pragma mark - <Add model>
 - (void)addUploadingFile:(YVResultFileModel *)fileModel atGroup:(nonnull NSString *)groupName
 {
     [self addUploadingFiles:@[fileModel] atGroup:groupName];
@@ -139,7 +139,7 @@ static dispatch_once_t onceToken;
         {
             YVUploadingFileModel *uploadingModel = [[YVUploadingFileModel alloc] initWithResultFileModel:fileModel];
             [uploadingGroupModel.fileModels addObject:uploadingModel];
-            [self initRequest:uploadingModel];
+//            [self initRequest:uploadingModel];
         }
         else
         {
@@ -156,7 +156,7 @@ static dispatch_once_t onceToken;
     }
 }
 
-#pragma mark - <add>
+#pragma mark - <Remove model>
 - (void)removeUploadFileModel:(YVUploadingFileModel *)uploadingFileModel
 {
     NSString *kindClass = [YVValidFileFormatObject kindClassEncodingWithFileExtension:uploadingFileModel.fileExtension];
@@ -171,6 +171,18 @@ static dispatch_once_t onceToken;
             {
                 self.uploadComplatedResponse();
             }
+        }
+    }
+}
+
+#pragma mark - <Control tasks>
+- (void)startAllOfUploadingTasks
+{
+    for (YVUploadingFileGroupModel *uploadingGroupModel in self.tasksObjects)
+    {
+        for (YVUploadingFileModel *uploadingFileModel in uploadingGroupModel.fileModels)
+        {
+            [self initRequest:uploadingFileModel];
         }
     }
 }

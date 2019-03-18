@@ -8,7 +8,6 @@
 
 #import "YVLocalizedFilesContainerViewController.h"
 
-#import "CLMDAlertTools.h"
 #import "NinaPagerView.h"
 #import "UIBaseHeader.h"
 #import "YVFileManagementView.h"
@@ -18,6 +17,7 @@
 #import "YVLocalizedDocumentsViewController.h"
 #import "YVLocalizedAtlasCollectionViewController.h"
 #import "YVLocalizedVideosCollectionViewController.h"
+#import "YVSearchSourcesViewController.h"
 
 @interface YVLocalizedFilesContainerViewController () <NinaPagerViewDelegate, YVLocalizedCacheManagerDelegate, YVLocalizedFileManagementDelegate>
 
@@ -30,6 +30,7 @@
 
 @property (nonatomic, strong) UIButton *managementBtn;
 @property (nonatomic) NSInteger currentIndex;
+@property (nonatomic) BOOL massTransfer;
 
 @property (nonatomic, strong) YVFileManagementView *managementView;
 
@@ -178,29 +179,73 @@
 }
 
 #pragma mark - <选择获取文档文件>
+/// 提示用户选择文件来源
 - (void)uploadDocumentsActionSheet
 {
-    [CLMDAlertTools showActionSheetWith:self title:nil message:@"请选择文件来源" callbackBlock:^(NSInteger btnIndex) {
-         if (btnIndex != 0)
-         {
-             [self showAlertWithAchieveDocumentsComefrom:btnIndex];
-         }
-     } destructiveButtonTitle:nil cancelButtonTitle:@"取消" otherButtonTitles:@"QQ导入", @"微信导入", nil];
+    __weak YVLocalizedFilesContainerViewController *weakSelf = self;
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请选择文件来源" preferredStyle:UIAlertControllerStyleActionSheet];
+    UIAlertAction *sysAction = [UIAlertAction actionWithTitle:@"系统相册" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf pushSystemSources];
+    }];
+    UIAlertAction *qqAction = [UIAlertAction actionWithTitle:@"QQ文件导入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf showAlertWithResourcesComefrom:ResourcesComefromQQ];
+    }];
+    UIAlertAction *wxAction = [UIAlertAction actionWithTitle:@"微信文件导入" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [weakSelf showAlertWithResourcesComefrom:ResourcesComefromWechat];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:sysAction];
+    [alertController addAction:qqAction];
+    [alertController addAction:wxAction];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
-- (void)showAlertWithAchieveDocumentsComefrom:(NSInteger)itemTag
+/// 系统获取(批量传输文件, 仅处理图片和视频逻辑)
+- (void)pushSystemSources
 {
-    NSString *platform = (itemTag == 1) ? @"QQ": @"微信";
-    NSString *source = (itemTag == 1) ? @"mqq://": @"weixin://";
-    NSString *explain = [NSString stringWithFormat:@"打开%@ -> 选择文件 -> 用其它应用打开 -> 选择App即可将文件添加到应用!", platform];
-    [CLMDAlertTools showAlertWith:self title:explain message:nil callbackBlock:^(NSInteger btnIndex)
+    self.massTransfer = YES;
+    
+    YVSearchSourcesViewController *control = [[YVSearchSourcesViewController alloc] init];
+    control.mediaType = (PHAssetMediaType)self.ninaPagerView.pageIndex;
+    [self.navigationController pushViewController:control animated:YES];
+    
+    __weak YVLocalizedFilesContainerViewController *weakSelf = self;
+    control.didEndEdit = ^{
+        [weakSelf didEndMassTransfer];
+    };
+}
+
+/// 批量传输完成更新数据显示
+- (void)didEndMassTransfer
+{
+    [self.atlasControl reloadFileModels];
+    self.currentControl = self.atlasControl;
+    [self.videosControl reloadFileModels];
+    self.currentControl = self.videosControl;
+    // 更新
+    if (_managementView)
     {
-        if (btnIndex != 0)
-        {
-            NSURL *url = [NSURL URLWithString:source];
-            [[UIApplication sharedApplication] openURL:url];
-        }
-    } cancelButtonTitle:@"取消" destructiveButtonTitle:[NSString stringWithFormat:@"打开%@", platform] otherButtonTitles:nil, nil];
+        [self.managementView updateSelectedCount:self.currentControl.selectedFileCount totalCount:self.currentControl.totalFileCount];
+    }
+}
+
+/// 跳转第三方应用获取
+- (void)showAlertWithResourcesComefrom:(ResourcesComefrom)comefrom
+{
+    NSString *platform = (comefrom == ResourcesComefromQQ) ? @"QQ": @"微信";
+    NSString *source = (comefrom == ResourcesComefromQQ) ? @"mqq://": @"weixin://";
+    NSString *explain = [NSString stringWithFormat:@"打开%@ -> 选择文件 -> 用其它应用打开 -> 选择App即可将文件添加到应用!", platform];
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:explain message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *openAction = [UIAlertAction actionWithTitle:[NSString stringWithFormat:@"打开%@", platform] style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        // 打开应用
+        NSURL *url = [NSURL URLWithString:source];
+        [[UIApplication sharedApplication] openURL:url];
+    }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alertController addAction:openAction];
+    [alertController addAction:cancelAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 #pragma mark - <生命周期>
@@ -224,31 +269,37 @@
 #pragma mark - <实现监听代理以获取实时文件数据变更信息>
 - (void)didAddedLocalizedCacheWithFileType:(YVLocalizedFileType)fileType
 {
-    int currentPage = (int)fileType;
-    switch (fileType) {
-        case YVLocalizedFileTypeDocument:
-            [self.documentsControl reloadFileModels];
-            self.currentControl = self.documentsControl;
-            break;
-        case YVLocalizedFileTypeAtla:
-            [self.atlasControl reloadFileModels];
-            self.currentControl = self.atlasControl;
-            break;
-        case YVLocalizedFileTypeVideo:
-            [self.videosControl reloadFileModels];
-            self.currentControl = self.videosControl;
-            break;
-        default:
-            break;
-    }
-    
-    // 更新
-    [self.managementView updateSelectedCount:self.currentControl.selectedFileCount totalCount:self.currentControl.totalFileCount];
-    
-    // 检测是否需要跳转
-    if (self.ninaPagerView.pageIndex != currentPage)
+    if (!self.massTransfer)// 非批量传输, 防止重复刷新消耗资源(批量传输在另外的逻辑执行)
     {
-        self.ninaPagerView.ninaChosenPage = currentPage + 1;
+        int currentPage = (int)fileType;
+        switch (fileType) {
+            case YVLocalizedFileTypeDocument:
+                [self.documentsControl reloadFileModels];
+                self.currentControl = self.documentsControl;
+                break;
+            case YVLocalizedFileTypeAtla:
+                [self.atlasControl reloadFileModels];
+                self.currentControl = self.atlasControl;
+                break;
+            case YVLocalizedFileTypeVideo:
+                [self.videosControl reloadFileModels];
+                self.currentControl = self.videosControl;
+                break;
+            default:
+                break;
+        }
+        
+        // 更新
+        if (_managementView)
+        {
+            [self.managementView updateSelectedCount:self.currentControl.selectedFileCount totalCount:self.currentControl.totalFileCount];
+        }
+        
+        // 检测是否需要跳转
+        if (self.ninaPagerView.pageIndex != currentPage)
+        {
+            self.ninaPagerView.ninaChosenPage = currentPage + 1;
+        }
     }
 }
 

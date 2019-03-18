@@ -214,9 +214,22 @@ static const NSString *noneCellId = @"YVTableNoneStatusCell";
 }
 
 #pragma mark - <表格代理>
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return (self.fileModels.count != 0) ? self.fileModels.count: 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (self.fileModels.count != 0)
+    {
+        YVResultFileGroupModel *resultModel = self.fileModels[section];
+        return resultModel.isExtend ? resultModel.fileModels.count : 0;
+    }
+    else
+    {
+        return 1;
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -249,7 +262,7 @@ static const NSString *noneCellId = @"YVTableNoneStatusCell";
 {
     if (self.fileModels.count != 0)
     {
-        [YVTableViewCellObject setSeparatorInsetWithCell:cell inset:UIEdgeInsetsMake(0, 140, 0, 0)];
+        [YVTableViewCellObject setSeparatorInsetWithCell:cell inset:UIEdgeInsetsMake(0, 90, 0, 0)];
     }
     else
     {

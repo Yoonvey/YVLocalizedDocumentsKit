@@ -111,7 +111,7 @@ static dispatch_once_t onceToken;
     // 数据模型归档保存
     NSError *error = nil;
     NSData *fileData = [NSKeyedArchiver archivedDataWithRootObject:fileModel requiringSecureCoding:YES error:&error];
-    NSLog(@"%@",error);
+    NSLog(@"error = %@",error);
     [files addObject:fileData];
     // 添加新的缓存
     [userCache setValue:files forKey:kindClass];
@@ -143,10 +143,11 @@ static dispatch_once_t onceToken;
         resultModel.fileSize = fileModel.fileSize;
         resultModel.createTime = fileModel.createTime;
         
-        // 视频获取封面
+        // 视频获取封面和时长
         if (fileType == YVLocalizedFileTypeVideo)
         {
             resultModel.cover = [YVFileHelper getImageWithVideoPath:resultModel.filePath];
+            resultModel.duration = [YVFileHelper getDurationWithViedeoPath:resultModel.filePath];
         }
         
         [fileModels addObject:resultModel];
@@ -161,28 +162,34 @@ static dispatch_once_t onceToken;
 /// 根据文件类型获取本地存储的文件信息并返回分组集合
 - (NSArray<YVResultFileGroupModel *> *)getFileModelsGroupWithFileType:(YVLocalizedFileType)fileType
 {
-    NSArray *groupTitles = [NSMutableArray arrayWithObjects:@"WORD", @"EXCEL", @"PPT", @"PDF", @"ATLA", @"VIDEO", nil];
+    NSArray *groupTitles = [NSMutableArray arrayWithObjects:@"BIN", @"EXCEL", @"PDF", @"PPT", @"WORD", @"ATLA", @"VIDEO", nil];
     
     NSMutableDictionary *groupModelsInfo = [NSMutableDictionary dictionary];
-    // WORD
-    YVResultFileGroupModel *wordGroupModel = [[YVResultFileGroupModel alloc] init];
-    wordGroupModel.groupName = @"WORD";
-    [groupModelsInfo setObject:wordGroupModel forKey:@"WORD"];
+    
+    //BIN
+    YVResultFileGroupModel *binGroupModel = [[YVResultFileGroupModel alloc] init];
+    binGroupModel.groupName = @"BIN";
+    [groupModelsInfo setObject:binGroupModel forKey:@"BIN"];
     
     //EXCEL
     YVResultFileGroupModel *excelGroupModel = [[YVResultFileGroupModel alloc] init];
     excelGroupModel.groupName = @"EXCEL";
     [groupModelsInfo setObject:excelGroupModel forKey:@"EXCEL"];
     
+    //PDF
+    YVResultFileGroupModel *pdfGroupModel = [[YVResultFileGroupModel alloc] init];
+    pdfGroupModel.groupName = @"PDF";
+    [groupModelsInfo setObject:pdfGroupModel forKey:@"PDF"];
+    
     //PPT
     YVResultFileGroupModel *pptGroupModel = [[YVResultFileGroupModel alloc] init];
     pptGroupModel.groupName = @"PPT";
     [groupModelsInfo setObject:pptGroupModel forKey:@"PPT"];
     
-    //PDF
-    YVResultFileGroupModel *pdfGroupModel = [[YVResultFileGroupModel alloc] init];
-    pdfGroupModel.groupName = @"PDF";
-    [groupModelsInfo setObject:pdfGroupModel forKey:@"PDF"];
+    // WORD
+    YVResultFileGroupModel *wordGroupModel = [[YVResultFileGroupModel alloc] init];
+    wordGroupModel.groupName = @"WORD";
+    [groupModelsInfo setObject:wordGroupModel forKey:@"WORD"];
     
     //ATLA
     YVResultFileGroupModel *atlaGroupModel = [[YVResultFileGroupModel alloc] init];
@@ -229,28 +236,34 @@ static dispatch_once_t onceToken;
 /// 根据文件类型获取本地存储的文件信息并返回分组集合
 - (NSArray<YVResultFileGroupModel *> *)getFileModelsGroupWithFileType:(YVLocalizedFileType)fileType contrastModelsGroup:(nonnull NSArray<YVResultFileGroupModel *> *)contrastGroup
 {
-    NSArray *groupTitles = [NSMutableArray arrayWithObjects:@"WORD", @"EXCEL", @"PPT", @"PDF", @"ATLA", @"VIDEO", nil];
+    NSArray *groupTitles = [NSMutableArray arrayWithObjects:@"BIN", @"EXCEL", @"PDF", @"PPT", @"WORD", @"ATLA", @"VIDEO", nil];
     
     NSMutableDictionary *groupModelsInfo = [NSMutableDictionary dictionary];
-    // WORD
-    YVResultFileGroupModel *wordGroupModel = [[YVResultFileGroupModel alloc] init];
-    wordGroupModel.groupName = @"WORD";
-    [groupModelsInfo setObject:wordGroupModel forKey:@"WORD"];
+    
+    //BIN
+    YVResultFileGroupModel *binGroupModel = [[YVResultFileGroupModel alloc] init];
+    binGroupModel.groupName = @"BIN";
+    [groupModelsInfo setObject:binGroupModel forKey:@"BIN"];
     
     //EXCEL
     YVResultFileGroupModel *excelGroupModel = [[YVResultFileGroupModel alloc] init];
     excelGroupModel.groupName = @"EXCEL";
     [groupModelsInfo setObject:excelGroupModel forKey:@"EXCEL"];
     
+    //PDF
+    YVResultFileGroupModel *pdfGroupModel = [[YVResultFileGroupModel alloc] init];
+    pdfGroupModel.groupName = @"PDF";
+    [groupModelsInfo setObject:pdfGroupModel forKey:@"PDF"];
+    
     //PPT
     YVResultFileGroupModel *pptGroupModel = [[YVResultFileGroupModel alloc] init];
     pptGroupModel.groupName = @"PPT";
     [groupModelsInfo setObject:pptGroupModel forKey:@"PPT"];
     
-    //PDF
-    YVResultFileGroupModel *pdfGroupModel = [[YVResultFileGroupModel alloc] init];
-    pdfGroupModel.groupName = @"PDF";
-    [groupModelsInfo setObject:pdfGroupModel forKey:@"PDF"];
+    // WORD
+    YVResultFileGroupModel *wordGroupModel = [[YVResultFileGroupModel alloc] init];
+    wordGroupModel.groupName = @"WORD";
+    [groupModelsInfo setObject:wordGroupModel forKey:@"WORD"];
     
     //ATLA
     YVResultFileGroupModel *atlaGroupModel = [[YVResultFileGroupModel alloc] init];

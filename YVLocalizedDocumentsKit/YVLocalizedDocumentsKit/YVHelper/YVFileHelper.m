@@ -27,6 +27,14 @@
     return thumb;
 }
 
++ (double)getDurationWithViedeoPath:(NSString *)videoPath
+{
+    AVURLAsset *audioAsset = [[AVURLAsset alloc] initWithURL:[NSURL fileURLWithPath:videoPath] options:nil];
+    CMTime audioDuration = audioAsset.duration;
+    double audioDurationSeconds = CMTimeGetSeconds(audioDuration);
+    return audioDurationSeconds;
+}
+
 + (NSString *)sizeExplain:(float)size
 {
     NSString *unit = @"B";
@@ -51,6 +59,21 @@
     [dateFormatter setDateFormat:dateFormart];
     NSString *dateString = [dateFormatter stringFromDate:date];
     return dateString;
+}
+
++ (NSString *)conversionTimeWithSecond:(NSInteger)times
+{
+    NSInteger seconds = times % 60;
+    NSInteger minutes = (times / 60) % 60;
+    NSInteger hours = (times / 3600);
+    if (hours > 0)
+    {
+        return [NSString stringWithFormat:@"%02li:%02li:%02li", (long)hours, (long)minutes, (long)seconds];
+    }
+    else
+    {
+        return [NSString stringWithFormat:@"%02li:%02li", (long)minutes, (long)seconds];
+    }
 }
 
 @end

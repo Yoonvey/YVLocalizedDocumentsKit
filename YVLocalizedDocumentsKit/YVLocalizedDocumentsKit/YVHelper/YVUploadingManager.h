@@ -27,6 +27,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)addUploadingFiles:(NSArray<YVResultFileModel *> *)fileModels atGroup:(NSString *)groupName;
 - (void)addUploadingFilesGroup:(NSMutableDictionary *)groupInfo;
 
+/// Tasks control
+- (void)startAllOfUploadingTasks;
+- (void)pauseAllOfUpalodingTasks;
+- (void)cancelAllOfUploadingTasks;
+
 @end
 
 NS_ASSUME_NONNULL_END

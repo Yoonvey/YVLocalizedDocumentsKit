@@ -14,6 +14,9 @@
 {
     NSMutableArray *formats = [NSMutableArray array];
     
+    // bin
+    [formats addObject:@"bin"];
+    
     // excel
     [formats addObject:@"xls"];
     [formats addObject:@"xlsx"];
@@ -60,6 +63,10 @@
     {
         return @"PDF";
     }
+    else if([extension isEqualToString:@"bin"])
+    {
+        return @"BIN";
+    }
     else if([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"])
     {
         return @"ATLA";
@@ -70,7 +77,7 @@
     }
     else
     {
-        return @"";
+        return @"UNKNOWN";
     }
 }
 
@@ -93,6 +100,10 @@
     {
         return @"pdf";
     }
+    else if([extension isEqualToString:@"bin"])
+    {
+        return @"bin";
+    }
     else if([extension isEqualToString:@"png"] || [extension isEqualToString:@"jpg"] || [extension isEqualToString:@"jpeg"])
     {
         return @"atla";
@@ -103,7 +114,7 @@
     }
     else
     {
-        return @"";
+        return @"unknown";
     }
 }
 

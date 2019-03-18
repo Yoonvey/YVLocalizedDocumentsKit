@@ -20,11 +20,33 @@
 
 #define Bundle_Name(imageNamed) [NSString stringWithFormat:@"YVLocalizedDocumentsUIResources.bundle/%@", imageNamed]// 模块图标资源路径
 
+/// 对象选中状态枚举
+typedef enum {
+    SelectedStatusNone = 0,
+    SelectedStatusAll
+} SelectedStatus;
+
+/// 用户编辑状态枚举
 typedef enum
 {
     UserEditStatusNormal = 0,
     UserEditStatusEditing
 } UserEditStatus;
+
+/// 文件来源枚举
+typedef enum {
+    ResourcesComefromSystem = 0,
+    ResourcesComefromQQ,
+    ResourcesComefromWechat
+} ResourcesComefrom;
+
+/// 工具栏c交互选项枚举
+typedef enum {
+    ToolBarActionSelectedAll = 0,
+    ToolBarActionSelectedNone,
+    ToolBarActionUploadCloud,
+    ToolBarActionSelectedDelete
+} ToolBarActionType;
 
 #import "UIBaseControlRespoder.h"
 #import "UIBaseViewController.h"

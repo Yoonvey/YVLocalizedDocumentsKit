@@ -15,6 +15,9 @@
 #import "YVTableViewCellObject.h"
 #import "YVTableHeaderView.h"
 
+#import "YVLocalizedDocumentTxtViewController.h"
+#import "UIBaseNavigationController.h"
+
 static NSString *const headerId = @"YVTableHeaderView";
 static NSString *const cellId = @"YVLocalizedDocumentCell";
 static NSString *const noneCellId = @"YVTableNoneStatusCell";
@@ -105,10 +108,63 @@ static NSString *const noneCellId = @"YVTableNoneStatusCell";
     YVResultFileGroupModel *groupFileModel = self.fileModels[indexPath.section];
     YVResultFileModel *fileModel = groupFileModel.fileModels[indexPath.row];
     
-    UIDocumentInteractionController *documentControl = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:fileModel.filePath]];
-    documentControl.delegate = self;
-    [documentControl presentPreviewAnimated:YES];
+    if ([fileModel.fileExtension isEqualToString:@"bin"])
+    {
+        //获取数据
+        NSData *reader = [NSData dataWithContentsOfFile:fileModel.filePath];
+        //    NSData *reader = [NSData dataWithContentsOfURL:[NSURL URLWithString:fileModel.filePath]];
+        
+        //    //得到文件的长度(大小)
+        //    int size = [reader length];
+        //    char dataBuf[size];
+        //    [reader getBytes:&dataBuf range:NSMakeRange(0, size)];
+        
+//        NSLog(@"Bin jsonString = %@", [self convertDataToHexStr:reader]);
+        
+        YVLocalizedDocumentTxtViewController *txtControl = [[YVLocalizedDocumentTxtViewController alloc] init];
+        txtControl.value = [self convertDataToHexStr:reader];
+        UIBaseNavigationController *navControl = [[UIBaseNavigationController alloc] initWithRootViewController:txtControl];
+        [self presentViewController:navControl animated:YES completion:nil];
+    }
+    else
+    {
+        UIDocumentInteractionController *documentControl = [UIDocumentInteractionController interactionControllerWithURL:[NSURL fileURLWithPath:fileModel.filePath]];
+        documentControl.delegate = self;
+        [documentControl presentPreviewAnimated:YES];
+
+    }
 }
+
+/*！
+ *@brief data转16进制字符串
+ *@param data data格式
+ *@return 16进制字符串
+ */
+- (NSString *)convertDataToHexStr:(NSData *)data
+{
+    if (!data || [data length] == 0)
+    {
+        return @"";
+    }
+    NSMutableString *string = [[NSMutableString alloc] initWithCapacity:[data length]];
+    
+    [data enumerateByteRangesUsingBlock:^(const void *bytes, NSRange byteRange, BOOL *stop)
+     {
+         unsigned char *dataBytes = (unsigned char*)bytes;
+         for (NSInteger i = 0; i < byteRange.length; i++)
+         {
+             NSString *hexStr = [NSString stringWithFormat:@"%x", (dataBytes[i]) & 0xff];
+             if ([hexStr length] == 2)
+             {
+                 [string appendString:hexStr];
+             } else {
+                 [string appendFormat:@"0%@", hexStr];
+             }
+         }
+     }];
+    return string;
+}
+
 
 #pragma mark - <点击修改文件编辑状态>
 /// 修改文档选中编辑状态

@@ -12,13 +12,6 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef enum {
-    ToolBarActionSelectedAll = 0,
-    ToolBarActionSelectedNone,
-    ToolBarActionUploadCloud,
-    ToolBarActionSelectedDelete
-} ToolBarActionType;
-
 @class YVFileSelectButton;
 
 @interface YVFileManagementView : UIView
