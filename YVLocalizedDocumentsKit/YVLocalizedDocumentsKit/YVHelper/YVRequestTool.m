@@ -64,8 +64,16 @@
             executingResponse(uploadParam, progressValue);
         }
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSString *responseDataString =  [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
-        id responseDictionary = [self dictionaryWithJsonString:responseDataString];
+        id responseDictionary = nil;
+        if([responseObject isKindOfClass:[NSData class]])
+        {
+            NSString *responseDataString =  [[NSString alloc]initWithData:responseObject encoding:NSUTF8StringEncoding];
+            responseDictionary = [self dictionaryWithJsonString:responseDataString];
+        }
+        else
+        {
+            responseDictionary = responseObject;
+        }
         if(completionResponse)
         {
             completionResponse(task, nil, responseDictionary);

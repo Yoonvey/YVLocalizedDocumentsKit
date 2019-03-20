@@ -45,7 +45,7 @@ static NSString * const videoCellId = @"YVUploadingVideoCell";
 - (UIButton*)set_leftButton
 {
     UIButton *left_button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [left_button setImage:[UIImage imageNamed:Bundle_Name(@"navWhite")] forState:UIControlStateNormal];
+    [left_button setImage:[UIImage imageNamed:Bundle_Name(@"navBackGray")] forState:UIControlStateNormal];
     return left_button;
 }
 

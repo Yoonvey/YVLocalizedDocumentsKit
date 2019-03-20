@@ -49,7 +49,7 @@ static const NSString *cellId = @"YVSearchSourcesCell";
         _segmentedControl = [[UISegmentedControl alloc]initWithItems:segmentedArray];
         _segmentedControl.frame = CGRectMake(0, 0, 180, 30);
         _segmentedControl.selectedSegmentIndex = (self.mediaType == PHAssetMediaTypeVideo) ? 1 : 0;
-        _segmentedControl.tintColor = [UIColor whiteColor];
+        _segmentedControl.tintColor = [UIColor darkGrayColor];
         [_segmentedControl addTarget:self action:@selector(indexDidChangeForSegmentedControl:) forControlEvents:UIControlEventValueChanged];
         self.segmentedIndex = _segmentedControl.selectedSegmentIndex;
     }
@@ -71,8 +71,8 @@ static const NSString *cellId = @"YVSearchSourcesCell";
     {
         _commitButton = [UIButton buttonWithType:UIButtonTypeCustom];
         _commitButton.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 50);
-        _commitButton.layer.backgroundColor = [UIColor orangeColor].CGColor;
-        [_commitButton setTitle:@"完成" forState:UIControlStateNormal];
+        _commitButton.layer.backgroundColor = [UIColor lightGrayColor].CGColor;
+        [_commitButton setTitle:@"完    成(0)" forState:UIControlStateNormal];
         [_commitButton addTarget:self action:@selector(commitSelectedItems) forControlEvents:UIControlEventTouchUpInside];
         [self.view addSubview:_commitButton];
     }
@@ -91,7 +91,7 @@ static const NSString *cellId = @"YVSearchSourcesCell";
 #pragma mark - <设置导航栏>
 - (UIColor *)set_colorBackground
 {
-    return [UIColor orangeColor];
+    return [UIColor whiteColor];
 }
 
 - (UIView *)set_bottomView
@@ -102,7 +102,7 @@ static const NSString *cellId = @"YVSearchSourcesCell";
 - (UIButton*)set_leftButton
 {
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 44, 44)];
-    [button setImage:[UIImage imageNamed:Bundle_Name(@"navBack")] forState:UIControlStateNormal];
+    [button setImage:[UIImage imageNamed:Bundle_Name(@"navBackGray")] forState:UIControlStateNormal];
     return button;
 }
 
@@ -114,7 +114,10 @@ static const NSString *cellId = @"YVSearchSourcesCell";
 - (UIButton *)set_rightButton
 {
     UIButton *button = [[UIButton alloc]initWithFrame:CGRectMake(0, 0, 44, 44)];
+    button.titleLabel.font = [UIFont systemFontOfSize:16.f];
     [button setTitle:@"选择" forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    [button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateHighlighted];
     self.rightItemButton = button;
     return button;
 }
@@ -123,13 +126,13 @@ static const NSString *cellId = @"YVSearchSourcesCell";
 {
     if ([sender.titleLabel.text isEqualToString:@"选择"])
     {
-        self.commitButton.frame = CGRectMake(0, ScreenHeight - 50, ScreenWidth, 50);
-        self.collectionView.frame = CGRectMake(0, SafeAreaTopHeight + 5, ScreenWidth, ScreenHeight - SafeAreaTopHeight - 60);
+        self.commitButton.frame = CGRectMake(0, ScreenHeight - 49.f, ScreenWidth, 49.f);
+        self.collectionView.frame = CGRectMake(0, SafeAreaTopHeight + 5.f, ScreenWidth, ScreenHeight - SafeAreaTopHeight - 55.f);
     }
     else
     {
-        self.commitButton.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 50);
-        self.collectionView.frame = CGRectMake(0, SafeAreaTopHeight + 5, ScreenWidth, ScreenHeight - SafeAreaTopHeight - 10);
+        self.commitButton.frame = CGRectMake(0, ScreenHeight, ScreenWidth, 49.f);
+        self.collectionView.frame = CGRectMake(0, SafeAreaTopHeight + 5.f, ScreenWidth, ScreenHeight - SafeAreaTopHeight - 5.f);
         
         // 取消全部已选中的文件的选中状态
         for (YVResultFileModel *fileModel in self.pictureModels)
@@ -140,11 +143,13 @@ static const NSString *cellId = @"YVSearchSourcesCell";
         {
             fileModel.isSelected = NO;
         }
+        [self.selectedModels removeAllObjects];
     }
     NSString *title = [sender.titleLabel.text isEqualToString:@"选择"] ? @"取消": @"选择";
     [sender setTitle:title forState:UIControlStateNormal];
     
     [self.collectionView reloadData];
+    [self updateCommitButtonStatues];
 }
 
 - (void)viewDidLoad
@@ -158,6 +163,23 @@ static const NSString *cellId = @"YVSearchSourcesCell";
         // 处理耗时操作的代码块...
         [self getSources];
     });
+    
+    [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status)
+    {
+        //没有授权
+        if(status == PHAuthorizationStatusRestricted)
+        {
+           
+        }
+        else if (status == PHAuthorizationStatusDenied)
+        {
+            
+        }
+        else
+        {//已经授权
+            
+        }
+    }];
 }
 
 - (void)setupCommon
@@ -165,6 +187,7 @@ static const NSString *cellId = @"YVSearchSourcesCell";
     self.view.backgroundColor = KColor(240, 240, 240);
     self.pictureModels = [NSMutableArray array];
     self.videoModels = [NSMutableArray array];
+    self.navBGView.backgroundColor = [UIColor whiteColor];
 }
 
 /// 初始化UICollectionView
@@ -199,28 +222,14 @@ static const NSString *cellId = @"YVSearchSourcesCell";
         {
             // 获取一个资源（PHAsset）
             PHAsset *phAsset = assetsFetchResults[idx];
-//            if (self.mediaType == PHAssetMediaTypeUnknown)// 获取图片和视频资源
-//            {
-                if (phAsset.mediaType == PHAssetMediaTypeImage)
-                {
-                    [self getImageSources:phAsset];// 获取图片资源
-                }
-                else
-                {
-                    [self getVideSources:phAsset];// 获取视频资源
-                }
-//            }
-//            else if (phAsset.mediaType == self.mediaType)// 获取图片或视频资源
-//            {
-//                if (self.mediaType == PHAssetMediaTypeImage)
-//                {
-//                    [self getImageSources:phAsset];// 获取图片资源
-//                }
-//                else
-//                {
-//                    [self getVideSources:phAsset];// 获取视频资源
-//                }
-//            }
+            if (phAsset.mediaType == PHAssetMediaTypeImage)
+            {
+                [self getImageSources:phAsset];// 获取图片资源
+            }
+            else
+            {
+                [self getVideSources:phAsset];// 获取视频资源
+            }
         }
         if (idx == assetsFetchResults.count - 1)
         {
@@ -369,32 +378,44 @@ static const NSString *cellId = @"YVSearchSourcesCell";
     {
         [self.selectedModels removeObject:fileModel];
     }
+    
+    [self updateCommitButtonStatues];
+}
+
+/// 更新提交按钮
+- (void)updateCommitButtonStatues
+{
+    [self.commitButton setTitle:[NSString stringWithFormat:@"完    成(%li)", self.selectedModels.count] forState:UIControlStateNormal];
+    self.commitButton.layer.backgroundColor = (self.selectedModels.count == 0) ? [UIColor lightGrayColor].CGColor  : [UIColor orangeColor].CGColor;
 }
 
 /// 选择并保存完成返回
 - (void)commitSelectedItems
 {
-    NSMutableArray *sourcesModels = self.selectedModels;
-    // 循环执行保存文件
-    for (YVResultFileModel *fileModel in sourcesModels)
+    if (self.selectedModels.count != 0)
     {
-        if(fileModel.isSelected)
+        NSMutableArray *sourcesModels = self.selectedModels;
+        // 循环执行保存文件
+        for (YVResultFileModel *fileModel in sourcesModels)
         {
-            NSData *data = [NSData dataWithContentsOfURL:fileModel.localizedUrl];
-            [[YVLocalizedCacheManager shareManager] addLocalizedCacheWithFileData:data fileName:fileModel.fileName];
+            if(fileModel.isSelected)
+            {
+                NSData *data = [NSData dataWithContentsOfURL:fileModel.localizedUrl];
+                [[YVLocalizedCacheManager shareManager] addLocalizedCacheWithFileData:data fileName:fileModel.fileName];
+            }
         }
+        // 返回上级界面
+        __weak YVSearchSourcesViewController *weakSelf = self;
+        [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if(weakSelf.didEndEdit)
+            {
+                weakSelf.didEndEdit();
+            }
+            [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+            [weakSelf.navigationController popViewControllerAnimated:YES];
+        });
     }
-    // 返回上级界面
-    __weak YVSearchSourcesViewController *weakSelf = self;
-    [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.7 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if(weakSelf.didEndEdit)
-        {
-            weakSelf.didEndEdit();
-        }
-        [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-        [weakSelf.navigationController popViewControllerAnimated:YES];
-    });
 }
 
 #pragma mark - <UICollectionView DataSorce,Delegate>

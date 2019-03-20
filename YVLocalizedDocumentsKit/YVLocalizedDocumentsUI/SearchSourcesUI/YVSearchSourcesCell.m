@@ -113,6 +113,7 @@
         self.duration.text = [YVFileHelper conversionTimeWithSecond:contentModel.duration];
         [self.playButton setImage:[UIImage imageNamed:Bundle_Name(@"playVideo")] forState:UIControlStateNormal];
         self.playButton.hidden = [status isEqualToString:@"选择"] ? NO : YES;
+        self.duration.hidden = NO;
     }
     else
     {
